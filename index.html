@@ -13,18 +13,18 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0a0d14;
-      --surface: #111520;
-      --surface2: #181d2e;
-      --border: rgba(255,255,255,0.07);
-      --text: #e8eaf0;
-      --muted: #7c82a0;
-      --accent: #6c63ff;
-      --accent2: #a78bfa;
-      --danger: #f87171;
-      --warning: #fbbf24;
-      --success: #34d399;
-      --info: #60a5fa;
+      --bg: #ffffff;
+      --surface: #f8fafc;
+      --surface2: #eef2ff;
+      --border: rgba(15,23,42,0.08);
+      --text: #000000;
+      --muted: #4b5563;
+      --accent: #1d4ed8;
+      --accent2: #111827;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #22c55e;
+      --info: #38bdf8;
 
       /* Product colors */
       --c-wpdm:     #818cf8;
@@ -54,7 +54,7 @@
       overflow: hidden;
       padding: 64px 40px 56px;
       text-align: center;
-      background: linear-gradient(135deg, #0d1117 0%, #161b2e 50%, #0d1117 100%);
+      background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%);
       border-bottom: 1px solid var(--border);
     }
     header::before {
@@ -83,10 +83,11 @@
       font-size: clamp(28px, 5vw, 48px);
       font-weight: 800;
       letter-spacing: -1px;
-      background: linear-gradient(135deg, #fff 30%, var(--accent2) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: #000000;
+      background: none;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: initial;
+      background-clip: unset;
       margin-bottom: 10px;
     }
     header p {
@@ -225,12 +226,12 @@
       display: inline-flex; align-items: center; gap: 4px;
       color: var(--accent); font-size: 11px; font-weight: 500;
       text-decoration: none; margin-top: 4px;
-      border: 1px solid rgba(108,99,255,.25);
+      border: 1px solid rgba(29,78,216,.25);
       border-radius: 4px; padding: 2px 7px;
-      background: rgba(108,99,255,.08);
-      transition: background .2s, color .2s;
+      background: rgba(29,78,216,.08);
+      transition: background .2s, color .2s, border-color .2s;
     }
-    .reason-text a:hover { background: rgba(108,99,255,.22); color: #fff; }
+    .reason-text a:hover { background: rgba(0,0,0,.06); color: #000000; border-color: rgba(0,0,0,.16); }
     .no-refund {
       padding: 20px;
       text-align: center;
@@ -298,6 +299,7 @@
     .fade-in:nth-child(4) { animation-delay: .2s; }
     .fade-in:nth-child(5) { animation-delay: .25s; }
     .fade-in:nth-child(6) { animation-delay: .3s; }
+
   </style>
 </head>
 <body>
@@ -616,8 +618,8 @@
 
 <script>
   // ─── CHART.JS SETUP ───
-  Chart.defaults.color = '#7c82a0';
-  Chart.defaults.borderColor = 'rgba(255,255,255,0.06)';
+  Chart.defaults.color = '#000000';
+  Chart.defaults.borderColor = 'rgba(15,23,42,0.08)';
   Chart.defaults.font.family = "'Inter', sans-serif";
 
   const products = ['WPDM','FlexTable','FlexStock','FlexMeeting','EVR'];
@@ -696,6 +698,7 @@
       el.style.width = el.dataset.width;
     });
   }, 300);
+
 </script>
 </body>
 </html>
