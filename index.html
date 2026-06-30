@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Monthly Refund Report — June 2026</title>
-  <meta name="description" content="Refund report for June 2026 with product-by-product breakdown and ticket references." />
+  <title>Monthly Refund Report — May 2026</title>
+  <meta name="description" content="Monthly plugin refund analytics dashboard for May 2026. Breakdown by product with detailed ticket references." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -25,60 +25,77 @@
       --warning: #f59e0b;
       --success: #22c55e;
       --info: #38bdf8;
-      --c-wpdm: #818cf8;
-      --c-flextable: #f472b6;
-      --c-flexstock: #34d399;
+
+      /* Product colors */
+      --c-wpdm:     #818cf8;
+      --c-flextable:#f472b6;
+      --c-flexstock:#34d399;
       --c-flexmeet: #fb923c;
-      --c-flexorder: #60a5fa;
-      --c-evr: #fbbf24;
-      --c-archive: #a78bfa;
-      --c-echo: #38bdf8;
-      --c-formychat: #f43f5e;
+      --c-flexorder:#60a5fa;
+      --c-evr:      #fbbf24;
+      --c-archive:  #a78bfa;
+      --c-echo:     #38bdf8;
+      --c-formychat:#f43f5e;
     }
+
+    html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.6;
       min-height: 100vh;
+      line-height: 1.6;
     }
 
+    /* ─── HEADER ─── */
     header {
-      padding: 64px 24px 56px;
+      position: relative;
+      overflow: hidden;
+      padding: 64px 40px 56px;
       text-align: center;
       background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #ffffff 100%);
       border-bottom: 1px solid var(--border);
     }
-
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 700px 400px at 50% -100px, rgba(108,99,255,.25), transparent),
+        radial-gradient(ellipse 500px 300px at 80% 120%, rgba(167,139,250,.12), transparent);
+      pointer-events: none;
+    }
     .badge {
       display: inline-block;
       background: rgba(108,99,255,.18);
-      color: var(--accent2);
       border: 1px solid rgba(108,99,255,.4);
-      border-radius: 100px;
-      padding: 4px 14px;
+      color: var(--accent2);
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 600;
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 16px;
+      padding: 4px 14px;
+      border-radius: 100px;
+      margin-bottom: 18px;
     }
-
     header h1 {
-      font-size: clamp(28px, 5vw, 46px);
+      font-size: clamp(28px, 5vw, 48px);
       font-weight: 800;
       letter-spacing: -1px;
+      color: #000000;
+      background: none;
+      -webkit-background-clip: unset;
+      -webkit-text-fill-color: initial;
+      background-clip: unset;
       margin-bottom: 10px;
     }
-
     header p {
       color: var(--muted);
       font-size: 15px;
-      max-width: 540px;
+      max-width: 480px;
       margin: 0 auto;
     }
-
     .header-date {
       margin-top: 18px;
       display: inline-flex;
@@ -87,32 +104,19 @@
       font-size: 13px;
       color: var(--muted);
     }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
 
-    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); }
-
+    /* ─── LAYOUT ─── */
     .container { max-width: 1200px; margin: 0 auto; padding: 48px 24px; }
 
-    .section-title {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      color: var(--muted);
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
+    /* ─── KPI CARDS ─── */
     .kpi-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 16px;
       margin-bottom: 48px;
     }
-
     .kpi-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -120,70 +124,63 @@
       padding: 24px 20px;
       position: relative;
       overflow: hidden;
+      transition: transform .2s, border-color .2s;
     }
-
+    .kpi-card:hover { transform: translateY(-3px); border-color: rgba(108,99,255,.35); }
     .kpi-card::after {
       content: '';
       position: absolute;
-      inset: 0 0 auto 0;
+      top: 0; left: 0; right: 0;
       height: 3px;
       background: var(--card-color, var(--accent));
       border-radius: 16px 16px 0 0;
     }
-
-    .kpi-label { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-    .kpi-value { font-size: 36px; font-weight: 800; letter-spacing: -1px; color: var(--card-color, var(--text)); line-height: 1; }
+    .kpi-label { font-size: 12px; font-weight: 500; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+    .kpi-value { font-size: 40px; font-weight: 800; letter-spacing: -2px; color: var(--card-color, var(--text)); line-height: 1; }
     .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
 
+    /* ─── SECTION TITLE ─── */
+    .section-title {
+      font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 2px;
+      color: var(--muted); margin-bottom: 20px; display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    /* ─── CHARTS ROW ─── */
     .charts-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 24px;
       margin-bottom: 48px;
     }
-
-    @media (max-width: 700px) { .charts-grid { grid-template-columns: 1fr; } }
+    @media(max-width: 700px) { .charts-grid { grid-template-columns: 1fr; } }
 
     .chart-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 28px 24px;
+      position: relative;
     }
-
-    .chart-card h3 { font-size: 14px; font-weight: 700; margin-bottom: 20px; }
+    .chart-card h3 { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 20px; }
     .chart-wrap { position: relative; height: 260px; }
 
-    .summary-bar {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 28px 24px;
-      margin-bottom: 48px;
-    }
-
-    .summary-bar h3 { font-size: 14px; font-weight: 700; margin-bottom: 20px; }
-    .bar-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-    .bar-label { font-size: 12px; color: var(--muted); width: 90px; flex-shrink: 0; }
-    .bar-track { flex: 1; height: 10px; background: rgba(15,23,42,0.06); border-radius: 100px; overflow: hidden; }
-    .bar-fill { height: 100%; border-radius: 100px; transition: width 1s cubic-bezier(.4,0,.2,1); }
-    .bar-count { font-size: 13px; font-weight: 700; width: 24px; text-align: right; flex-shrink: 0; }
-
+    /* ─── REASON BREAKDOWN ─── */
     .reason-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 16px;
+      margin-bottom: 48px;
     }
-
     .reason-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 14px;
       overflow: hidden;
+      transition: border-color .2s, transform .2s;
     }
-
-    .reason-card.zero { opacity: .5; }
-
+    .reason-card:hover { border-color: rgba(108,99,255,.3); transform: translateY(-2px); }
+    .reason-card.zero { opacity: .45; }
     .reason-header {
       display: flex;
       align-items: center;
@@ -192,10 +189,9 @@
       border-bottom: 1px solid var(--border);
       background: var(--surface2);
     }
-
     .reason-product { display: flex; align-items: center; gap: 10px; }
     .product-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-    .product-name { font-size: 14px; font-weight: 700; }
+    .product-name { font-size: 14px; font-weight: 700; color: var(--text); }
     .count-badge {
       background: rgba(255,255,255,.07);
       border: 1px solid var(--border);
@@ -203,8 +199,8 @@
       padding: 3px 12px;
       font-size: 18px;
       font-weight: 800;
+      color: var(--text);
     }
-
     .reason-list { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
     .reason-item {
       display: flex;
@@ -215,7 +211,6 @@
       padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
     }
-
     .reason-item:last-child { border-bottom: none; padding-bottom: 0; }
     .reason-num {
       flex-shrink: 0;
@@ -229,35 +224,59 @@
     .reason-text { flex: 1; }
     .reason-text a {
       display: inline-flex; align-items: center; gap: 4px;
-      color: var(--accent); font-size: 11px; font-weight: 600;
+      color: var(--accent); font-size: 11px; font-weight: 500;
       text-decoration: none; margin-top: 4px;
       border: 1px solid rgba(29,78,216,.25);
       border-radius: 4px; padding: 2px 7px;
       background: rgba(29,78,216,.08);
+      transition: background .2s, color .2s, border-color .2s;
     }
-
+    .reason-text a:hover { background: rgba(0,0,0,.06); color: #000000; border-color: rgba(0,0,0,.16); }
     .no-refund {
       padding: 20px;
       text-align: center;
       font-size: 13px;
       color: var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
+    /* ─── CATEGORY PILLS ─── */
     .tag {
       display: inline-block;
       font-size: 10px;
-      font-weight: 700;
+      font-weight: 600;
       padding: 2px 8px;
       border-radius: 4px;
       margin-right: 4px;
       margin-bottom: 4px;
     }
     .tag-renewal { background: rgba(251,191,36,.12); color: var(--warning); border: 1px solid rgba(251,191,36,.25); }
-    .tag-compat { background: rgba(248,113,113,.12); color: var(--danger); border: 1px solid rgba(248,113,113,.25); }
+    .tag-compat  { background: rgba(248,113,113,.12); color: var(--danger); border: 1px solid rgba(248,113,113,.25); }
     .tag-license { background: rgba(96,165,250,.12); color: var(--info); border: 1px solid rgba(96,165,250,.25); }
     .tag-feature { background: rgba(167,139,250,.12); color: var(--accent2); border: 1px solid rgba(167,139,250,.25); }
-    .tag-business { background: rgba(52,211,153,.12); color: var(--success); border: 1px solid rgba(52,211,153,.25); }
+    .tag-business{ background: rgba(52,211,153,.12); color: var(--success); border: 1px solid rgba(52,211,153,.25); }
+    .tag-duplicate{ background: rgba(251,191,36,.12); color: var(--warning); border: 1px solid rgba(251,191,36,.25); }
+    .tag-perf    { background: rgba(248,113,113,.12); color: var(--danger); border: 1px solid rgba(248,113,113,.25); }
 
+    /* ─── SUMMARY BAR ─── */
+    .summary-bar {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 24px;
+      margin-bottom: 48px;
+    }
+    .summary-bar h3 { font-size: 14px; font-weight: 600; margin-bottom: 20px; }
+    .bar-row { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
+    .bar-label { font-size: 12px; color: var(--muted); width: 90px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 10px; background: rgba(255,255,255,.06); border-radius: 100px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 100px; transition: width 1s cubic-bezier(.4,0,.2,1); }
+    .bar-count { font-size: 13px; font-weight: 700; color: var(--text); width: 24px; text-align: right; flex-shrink: 0; }
+
+    /* ─── FOOTER ─── */
     footer {
       text-align: center;
       padding: 32px 24px;
@@ -265,289 +284,421 @@
       font-size: 12px;
       color: var(--muted);
     }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* ─── ANIMATIONS ─── */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeIn .5s ease forwards;
+    }
+    @keyframes fadeIn { to { opacity: 1; transform: none; } }
+    .fade-in:nth-child(1) { animation-delay: .05s; }
+    .fade-in:nth-child(2) { animation-delay: .1s; }
+    .fade-in:nth-child(3) { animation-delay: .15s; }
+    .fade-in:nth-child(4) { animation-delay: .2s; }
+    .fade-in:nth-child(5) { animation-delay: .25s; }
+    .fade-in:nth-child(6) { animation-delay: .3s; }
+
   </style>
 </head>
 <body>
-  <header>
-    <div class="badge">Internal Analytics</div>
-    <h1>Monthly Refund Report</h1>
-    <p>A product-level overview of the June 2026 refund requests, including refund reasons and ticket references.</p>
-    <div class="header-date">
-      <span class="dot"></span>
-      June 2026 · Report Period: 01 June – 30 June 2026
-    </div>
-  </header>
 
-  <div class="container">
-    <div class="section-title">Key Metrics</div>
-    <div class="kpi-grid">
-      <div class="kpi-card" style="--card-color: #f87171">
-        <div class="kpi-label">Total Refunds</div>
-        <div class="kpi-value">14</div>
-        <div class="kpi-sub">Reported total for June 2026</div>
-      </div>
-      <div class="kpi-card" style="--card-color: var(--c-flexstock)">
-        <div class="kpi-label">Refund Entries Listed</div>
-        <div class="kpi-value">4</div>
-        <div class="kpi-sub">Detailed refund tickets captured</div>
-      </div>
-      <div class="kpi-card" style="--card-color: var(--c-wpdm)">
-        <div class="kpi-label">Products Affected</div>
-        <div class="kpi-value">4</div>
-        <div class="kpi-sub">WPDM, FlexTable, FlexStock, EchoRewards</div>
-      </div>
-      <div class="kpi-card" style="--card-color: var(--warning)">
-        <div class="kpi-label">Zero-Refund Products</div>
-        <div class="kpi-value">5</div>
-        <div class="kpi-sub">No refund activity listed this month</div>
-      </div>
-    </div>
+<!-- HEADER -->
+<header>
+  <div class="badge">Internal Analytics</div>
+  <h1>Monthly Refund Report</h1>
+  <p>A complete breakdown of refund requests by product, reason, and ticket reference.</p>
+  <div class="header-date">
+    <span class="dot"></span>
+    May 2026 &nbsp;·&nbsp; Report Period: 01 May – 31 May 2026
+  </div>
+</header>
 
-    <div class="section-title">Visual Breakdown</div>
-    <div class="charts-grid">
-      <div class="chart-card">
-        <h3>Refunds by Product</h3>
-        <div class="chart-wrap"><canvas id="doughnutChart"></canvas></div>
-      </div>
-      <div class="chart-card">
-        <h3>Refund Count per Product</h3>
-        <div class="chart-wrap"><canvas id="barChart"></canvas></div>
-      </div>
-    </div>
+<div class="container">
 
-    <div class="summary-bar">
-      <h3>Product Contribution</h3>
-      <div class="bar-row">
-        <div class="bar-label">WPDM</div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-wpdm)" data-width="25%"></div></div>
-        <div class="bar-count">1</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">FlexTable</div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-flextable)" data-width="25%"></div></div>
-        <div class="bar-count">1</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">FlexStock</div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-flexstock)" data-width="25%"></div></div>
-        <div class="bar-count">1</div>
-      </div>
-      <div class="bar-row">
-        <div class="bar-label">EchoRewards</div>
-        <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-echo)" data-width="25%"></div></div>
-        <div class="bar-count">1</div>
+  <!-- KPI CARDS -->
+  <div class="section-title">Key Metrics</div>
+  <div class="kpi-grid">
+    <div class="kpi-card fade-in" style="--card-color: #f87171">
+      <div class="kpi-label">Total Refunds</div>
+      <div class="kpi-value">12</div>
+      <div class="kpi-sub">May 2026</div>
+    </div>
+    <div class="kpi-card fade-in" style="--card-color: var(--c-flexstock)">
+      <div class="kpi-label">Top Product</div>
+      <div class="kpi-value" style="font-size:28px; letter-spacing:-1px;">FlexStock</div>
+      <div class="kpi-sub">5 refunds (41.7%)</div>
+    </div>
+    <div class="kpi-card fade-in" style="--card-color: var(--c-wpdm)">
+      <div class="kpi-label">Products Affected</div>
+      <div class="kpi-value">5</div>
+      <div class="kpi-sub">of 9 total products</div>
+    </div>
+    <div class="kpi-card fade-in" style="--card-color: var(--warning)">
+      <div class="kpi-label">Renewal Refunds</div>
+      <div class="kpi-value">3</div>
+      <div class="kpi-sub">25% of total</div>
+    </div>
+    <div class="kpi-card fade-in" style="--card-color: var(--info)">
+      <div class="kpi-label">Within 30-Day Policy</div>
+      <div class="kpi-value">9</div>
+      <div class="kpi-sub">75% of total</div>
+    </div>
+  </div>
+
+  <!-- CHARTS -->
+  <div class="section-title">Visual Breakdown</div>
+  <div class="charts-grid">
+    <div class="chart-card fade-in">
+      <h3>Refunds by Product</h3>
+      <div class="chart-wrap">
+        <canvas id="doughnutChart"></canvas>
       </div>
     </div>
-
-    <div class="section-title">Detailed Breakdown by Product</div>
-    <div class="reason-grid">
-      <div class="reason-card">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-wpdm)"></div>
-            <div class="product-name">WPDM</div>
-          </div>
-          <div class="count-badge">1</div>
-        </div>
-        <div class="reason-list">
-          <div class="reason-item">
-            <div class="reason-num">1</div>
-            <div class="reason-text">
-              <span class="tag tag-renewal">Renewal</span>
-              Auto-subscribed after one year, and the user doesn't want to continue. The client is no longer with him; the purchase has been debited from his card.
-              <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a43923a0b2fc914bcadded1" target="_blank" rel="noopener">🎫 View Ticket</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reason-card">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-flextable)"></div>
-            <div class="product-name">FlexTable</div>
-          </div>
-          <div class="count-badge">1</div>
-        </div>
-        <div class="reason-list">
-          <div class="reason-item">
-            <div class="reason-num">1</div>
-            <div class="reason-text">
-              <span class="tag tag-renewal">Renewal</span>
-              Auto-renewal, and the user doesn't want to continue — didn't use it.
-              <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a2e406b93d2092f2d1828d2" target="_blank" rel="noopener">🎫 View Ticket</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reason-card">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-flexstock)"></div>
-            <div class="product-name">FlexStock</div>
-          </div>
-          <div class="count-badge">1</div>
-        </div>
-        <div class="reason-list">
-          <div class="reason-item">
-            <div class="reason-num">1</div>
-            <div class="reason-text">
-              <span class="tag tag-business">Business Change</span>
-              Auto subscribed after one/two year and the user doesn't want to continue — no issue, can't use it anymore.
-              <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a3fb83c8f1d3c9764923c9f" target="_blank" rel="noopener">🎫 View Ticket</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reason-card zero">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-flexmeet)"></div>
-            <div class="product-name">FlexMeeting</div>
-          </div>
-          <div class="count-badge">0</div>
-        </div>
-        <div class="no-refund">✅ No refunds this month</div>
-      </div>
-
-      <div class="reason-card zero">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-flexorder)"></div>
-            <div class="product-name">FlexOrder</div>
-          </div>
-          <div class="count-badge">0</div>
-        </div>
-        <div class="no-refund">✅ No refunds this month</div>
-      </div>
-
-      <div class="reason-card zero">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-evr)"></div>
-            <div class="product-name">EVR</div>
-          </div>
-          <div class="count-badge">0</div>
-        </div>
-        <div class="no-refund">✅ No refunds this month</div>
-      </div>
-
-      <div class="reason-card zero">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-archive)"></div>
-            <div class="product-name">ArchiveMaster</div>
-          </div>
-          <div class="count-badge">0</div>
-        </div>
-        <div class="no-refund">✅ No refunds this month</div>
-      </div>
-
-      <div class="reason-card">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-echo)"></div>
-            <div class="product-name">EchoRewards</div>
-          </div>
-          <div class="count-badge">1</div>
-        </div>
-        <div class="reason-list">
-          <div class="reason-item">
-            <div class="reason-num">1</div>
-            <div class="reason-text">
-              <span class="tag tag-feature">Not Interested</span>
-              Not interested to continue and asking a refund within 30 days — it's not needed for him, don't want to use it anymore.
-              <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a2d493c7388d554313e650b" target="_blank" rel="noopener">🎫 View Ticket</a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="reason-card zero">
-        <div class="reason-header">
-          <div class="reason-product">
-            <div class="product-dot" style="background:var(--c-formychat)"></div>
-            <div class="product-name">FormyChat</div>
-          </div>
-          <div class="count-badge">0</div>
-        </div>
-        <div class="no-refund">✅ No refunds this month</div>
+    <div class="chart-card fade-in">
+      <h3>Refund Count per Product</h3>
+      <div class="chart-wrap">
+        <canvas id="barChart"></canvas>
       </div>
     </div>
   </div>
 
-  <footer>
-    <p>Generated by Internal Analytics · Report Period: June 2026</p>
-  </footer>
+  <!-- HORIZONTAL BAR -->
+  <div class="summary-bar fade-in">
+    <h3>Product Contribution</h3>
+    <div class="bar-row">
+      <div class="bar-label">FlexStock</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-flexstock)" data-width="41.7%"></div></div>
+      <div class="bar-count">5</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">WPDM</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-wpdm)" data-width="33.3%"></div></div>
+      <div class="bar-count">4</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">FlexMeeting</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-flexmeet)" data-width="16.7%"></div></div>
+      <div class="bar-count">2</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">FlexTable</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-flextable)" data-width="8.3%"></div></div>
+      <div class="bar-count">1</div>
+    </div>
+    <div class="bar-row">
+      <div class="bar-label">EVR</div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%;background:var(--c-evr)" data-width="8.3%"></div></div>
+      <div class="bar-count">1</div>
+    </div>
+  </div>
 
-  <script>
-    Chart.defaults.color = '#000000';
-    Chart.defaults.borderColor = 'rgba(15,23,42,0.08)';
-    Chart.defaults.font.family = "'Inter', sans-serif";
+  <!-- DETAILED BREAKDOWN -->
+  <div class="section-title">Detailed Breakdown by Product</div>
+  <div class="reason-grid">
 
-    const products = ['WPDM', 'FlexTable', 'FlexStock', 'EchoRewards'];
-    const counts = [1, 1, 1, 1];
-    const colors = ['#818cf8', '#f472b6', '#34d399', '#38bdf8'];
+    <!-- WPDM -->
+    <div class="reason-card fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-wpdm)"></div>
+          <div class="product-name">WPDM</div>
+        </div>
+        <div class="count-badge">4</div>
+      </div>
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-text">
+            <span class="tag tag-renewal">Renewal</span>
+            Transferred to client a year ago — asked for renewal refund.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/69f5bda657d8e0933bd9948b" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">2</div>
+          <div class="reason-text">
+            <span class="tag tag-compat">CSS Conflict</span>
+            Plugin fighting custom CSS on every turn — didn't want to fix it, asked within 30 days.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/69f3f15429c1b19623597db9" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">3</div>
+          <div class="reason-text">
+            <span class="tag tag-license">License Issue</span>
+            License not activated — didn't want to share site access, asked within 30 days.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/69da03a9be973849b19a641b" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">4</div>
+          <div class="reason-text">
+            <span class="tag tag-feature">Performance</span>
+            Found slow switching — moved to another plugin, asked within 30 days.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a0789257d84b2eefb16bbf0" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    new Chart(document.getElementById('doughnutChart'), {
-      type: 'doughnut',
-      data: {
-        labels: products,
-        datasets: [{
-          data: counts,
-          backgroundColor: colors.map(c => c + 'cc'),
-          borderColor: colors,
-          borderWidth: 2,
-          hoverOffset: 10
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        cutout: '65%',
-        plugins: {
-          legend: { position: 'right', labels: { boxWidth: 12, padding: 16, font: { size: 12 } } },
-          tooltip: {
-            callbacks: {
-              label: ctx => ` ${ctx.label}: ${ctx.parsed} refund${ctx.parsed !== 1 ? 's' : ''}`
-            }
+    <!-- FlexTable -->
+    <div class="reason-card fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-flextable)"></div>
+          <div class="product-name">FlexTable</div>
+        </div>
+        <div class="count-badge">1</div>
+      </div>
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-text">
+            <span class="tag tag-feature">Feature Gap</span>
+            Plugin doesn't cover user's need — wanted refund within trial days, wouldn't share Google Sheet access.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/69f3a4f256fecd910fe1fb06" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FlexStock -->
+    <div class="reason-card fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-flexstock)"></div>
+          <div class="product-name">FlexStock</div>
+        </div>
+        <div class="count-badge">5</div>
+      </div>
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-text">
+            <span class="tag tag-business">Business Change</span>
+            Changing their business — no longer need the plugin.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a01b8a2c1f31897e775dfaa" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">2</div>
+          <div class="reason-text">
+            <span class="tag tag-renewal">Renewal</span>
+            Using different sync methods — asked for renewal refund.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a0a8cac729592b3978210f0" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">3</div>
+          <div class="reason-text">
+            <span class="tag tag-duplicate">Duplicate Order</span>
+            Duplicated order placed by mistake — already purchased in the past. (2 tickets)
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a09472cb7035161fd07de15" target="_blank" rel="noopener">🎫 Ticket #1</a>
+            <a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/69f9f1926479f1ddce03aa3c" target="_blank" rel="noopener">🎫 Ticket #2</a>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">4</div>
+          <div class="reason-text">
+            <span class="tag tag-perf">RAM / Server</span>
+            Extremely high RAM usage — didn't collaborate on debugging.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a0f18dceee99ae3f09841de" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FlexMeeting -->
+    <div class="reason-card fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-flexmeet)"></div>
+          <div class="product-name">FlexMeeting</div>
+        </div>
+        <div class="count-badge">2</div>
+      </div>
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-text">
+            <span class="tag tag-feature">Live Streaming</span>
+            No longer interested — finds it difficult to operate; multiple refund requests (live streaming issue).
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a1024534c911e8e51b22bba" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+        <div class="reason-item">
+          <div class="reason-num">2</div>
+          <div class="reason-text">
+            <span class="tag tag-feature">Missing Feature</span>
+            Dissatisfied with plugin — requested recording feature that's missing.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/69cc9338459d775e226b93a5" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FlexOrder -->
+    <div class="reason-card zero fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-flexorder)"></div>
+          <div class="product-name">FlexOrder</div>
+        </div>
+        <div class="count-badge">0</div>
+      </div>
+      <div class="no-refund">✅ No refunds this month</div>
+    </div>
+
+    <!-- EVR -->
+    <div class="reason-card fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-evr)"></div>
+          <div class="product-name">EVR</div>
+        </div>
+        <div class="count-badge">1</div>
+      </div>
+      <div class="reason-list">
+        <div class="reason-item">
+          <div class="reason-num">1</div>
+          <div class="reason-text">
+            <span class="tag tag-renewal">Renewal</span>
+            Discontinued their website — no longer needs the plugin, asked for renewal refund.
+            <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a16fb016e37625a4a4c353a" target="_blank" rel="noopener">🎫 View Ticket</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ArchiveMaster -->
+    <div class="reason-card zero fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-archive)"></div>
+          <div class="product-name">ArchiveMaster</div>
+        </div>
+        <div class="count-badge">0</div>
+      </div>
+      <div class="no-refund">✅ No refunds this month</div>
+    </div>
+
+    <!-- EchoRewards -->
+    <div class="reason-card zero fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-echo)"></div>
+          <div class="product-name">EchoRewards</div>
+        </div>
+        <div class="count-badge">0</div>
+      </div>
+      <div class="no-refund">✅ No refunds this month</div>
+    </div>
+
+    <!-- FormyChat -->
+    <div class="reason-card zero fade-in">
+      <div class="reason-header">
+        <div class="reason-product">
+          <div class="product-dot" style="background:var(--c-formychat)"></div>
+          <div class="product-name">FormyChat</div>
+        </div>
+        <div class="count-badge">0</div>
+      </div>
+      <div class="no-refund">✅ No refunds this month</div>
+    </div>
+
+  </div><!-- /reason-grid -->
+
+</div><!-- /container -->
+
+<footer>
+  <p>Generated by Internal Analytics &nbsp;·&nbsp; Report Period: May 2026 &nbsp;·&nbsp;</p>
+</footer>
+
+<script>
+  // ─── CHART.JS SETUP ───
+  Chart.defaults.color = '#000000';
+  Chart.defaults.borderColor = 'rgba(15,23,42,0.08)';
+  Chart.defaults.font.family = "'Inter', sans-serif";
+
+  const products = ['WPDM','FlexTable','FlexStock','FlexMeeting','EVR'];
+  const counts   = [4, 1, 5, 2, 1];
+  const colors   = ['#818cf8','#f472b6','#34d399','#fb923c','#fbbf24'];
+
+  // Doughnut
+  new Chart(document.getElementById('doughnutChart'), {
+    type: 'doughnut',
+    data: {
+      labels: products,
+      datasets: [{
+        data: counts,
+        backgroundColor: colors.map(c => c + 'cc'),
+        borderColor: colors,
+        borderWidth: 2,
+        hoverOffset: 10
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      cutout: '65%',
+      plugins: {
+        legend: {
+          position: 'right',
+          labels: { boxWidth: 12, padding: 16, font: { size: 12 } }
+        },
+        tooltip: {
+          callbacks: {
+            label: ctx => ` ${ctx.label}: ${ctx.parsed} refunds (${((ctx.parsed/12)*100).toFixed(1)}%)`
           }
         }
       }
-    });
+    }
+  });
 
-    new Chart(document.getElementById('barChart'), {
-      type: 'bar',
-      data: {
-        labels: products,
-        datasets: [{
-          label: 'Refunds',
-          data: counts,
-          backgroundColor: colors.map(c => c + '33'),
-          borderColor: colors,
-          borderWidth: 2,
-          borderRadius: 8,
-          borderSkipped: false
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: {
-          y: { beginAtZero: true, ticks: { stepSize: 1 }, grid: { color: 'rgba(15,23,42,0.05)' } },
-          x: { grid: { display: false } }
+  // Bar
+  new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+      labels: products,
+      datasets: [{
+        label: 'Refunds',
+        data: counts,
+        backgroundColor: colors.map(c => c + '33'),
+        borderColor: colors,
+        borderWidth: 2,
+        borderRadius: 8,
+        borderSkipped: false
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          callbacks: { label: ctx => ` ${ctx.parsed.y} refund${ctx.parsed.y !== 1 ? 's':'' }` }
         }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: { stepSize: 1 },
+          grid: { color: 'rgba(255,255,255,0.05)' }
+        },
+        x: { grid: { display: false } }
       }
-    });
+    }
+  });
 
-    setTimeout(() => {
-      document.querySelectorAll('.bar-fill[data-width]').forEach(el => {
-        el.style.width = el.dataset.width;
-      });
-    }, 300);
-  </script>
+  // ─── ANIMATED BARS ───
+  setTimeout(() => {
+    document.querySelectorAll('.bar-fill[data-width]').forEach(el => {
+      el.style.width = el.dataset.width;
+    });
+  }, 300);
+
+</script>
 </body>
 </html>
