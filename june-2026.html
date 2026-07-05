@@ -236,6 +236,12 @@
       background: rgba(29,78,216,.08);
     }
 
+    .refund-amount {
+      margin-top: 6px;
+      font-weight: 700;
+      color: var(--danger);
+    }
+
     .no-refund {
       padding: 20px;
       text-align: center;
@@ -284,7 +290,7 @@
       <div class="kpi-card" style="--card-color: #f87171">
         <div class="kpi-label">Total Refunds</div>
         <div class="kpi-value">4</div>
-        <div class="kpi-sub">Reported total for June 2026</div>
+        <div class="kpi-sub" style="color: var(--danger);">Total refunded: $226.53 USD</div>
       </div>
       <div class="kpi-card" style="--card-color: var(--c-flexstock)">
         <div class="kpi-label">Refund Entries Listed</div>
@@ -355,6 +361,7 @@
             <div class="reason-text">
               <span class="tag tag-renewal">Renewal</span>
               Auto-subscribed after one year, and the user doesn't want to continue. The client is no longer with him; the purchase has been debited from his card.
+              <div class="refund-amount">Refund Amount: $52.19 USD</div>
               <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a43923a0b2fc914bcadded1" target="_blank" rel="noopener">🎫 View Ticket</a>
             </div>
           </div>
@@ -375,6 +382,7 @@
             <div class="reason-text">
               <span class="tag tag-renewal">Renewal</span>
               Auto-renewal, and the user doesn't want to continue — didn't use it.
+              <div class="refund-amount">Refund Amount: $64.09 USD</div>
               <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a2e406b93d2092f2d1828d2" target="_blank" rel="noopener">🎫 View Ticket</a>
             </div>
           </div>
@@ -395,6 +403,7 @@
             <div class="reason-text">
               <span class="tag tag-business">Business Change</span>
               Auto subscribed after one/two year and the user doesn't want to continue — no issue, can't use it anymore.
+              <div class="refund-amount">Refund Amount: $61.25 USD</div>
               <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a3fb83c8f1d3c9764923c9f" target="_blank" rel="noopener">🎫 View Ticket</a>
             </div>
           </div>
@@ -459,6 +468,7 @@
             <div class="reason-text">
               <span class="tag tag-feature">Not Interested</span>
               Not interested to continue and asking a refund within 30 days — it's not needed for him, don't want to use it anymore.
+              <div class="refund-amount">Refund Amount: $49.00 USD</div>
               <br><a href="https://app.gleap.io/projects/67b0bfa0b561d0ca41107455/inquiries/6a2d493c7388d554313e650b" target="_blank" rel="noopener">🎫 View Ticket</a>
             </div>
           </div>
